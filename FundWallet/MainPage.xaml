@@ -9,7 +9,7 @@
 
         <Button x:Name="btnDialog" Text="Add Fund" Clicked="addFund" BackgroundColor="Green" TextColor="White"/>
 
-        <!--<ListView x:Name="lstItens" ItemSelected="LstItens_ItemSelected">
+        <ListView x:Name="lstItens">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
@@ -19,6 +19,6 @@
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
-        </ListView>-->
+        </ListView>
     </StackLayout>
 </ContentPage>
