@@ -50,16 +50,36 @@ namespace FundWalletAPI.Controllers
             return CreatedAtAction("GetFund", new { id = fund.FundId }, fund);
         }
 
-        //TODO: Ask the client the necessity of.
-        //// PUT api/values/5
-        //[HttpPut("{id}")]
-        //public void Put(int id, [FromBody] string value)
-        //{
-        //}
 
-        //// DELETE api/values/5
-        //[HttpDelete("{id}")]
-        //public void Delete(int id)
+
+
+        //// PUT api/funds/5
+        [HttpPut("{id}")]
+        public void Put(int id, [FromBody] Fund fund)
+        {
+
+            _context.Update(fund);
+        }
+
+        //// DELETE api/funds/5
+        [HttpDelete("{id}")]
+        public async void Delete(int id)
+        {
+            var fund = await _context.Funds.FindAsync(id);
+           _context.Remove(fund);
+        }
+
+
+        [HttpGet("name/{name}")]
+        public async Task<ActionResult<IEnumerable<Fund>>> GetAllByName(string name)
+        {
+            return _context.Funds.FromSql($"SELECT * FROM funds where name LIKE {name}").ToList();
+        }
+
+        //[HttpGet]
+        //public async Task<ActionResult<IEnumerable<Fund>>> GetCountOfFundByName()
         //{
+        //    return await _context.Funds.ToListAsync();
+        //}
     }
 }

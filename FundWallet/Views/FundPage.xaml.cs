@@ -16,7 +16,8 @@ namespace FundWallet.Views
             InitializeComponent();
             title.Text = fund.Name;
             totalSum.Text = "R$ 121,21";
-            //items.ItemsSource = GetAll();
+
+            InicializeList();
 
             //funds.ForEach(item =>
             //{
@@ -26,14 +27,20 @@ namespace FundWallet.Views
             //FundsView.ItemsSource = funds;
         }
 
-        private async Task<Fund> GetAll()
+        private async void InicializeList()
+        {
+            List<Fund> funds = await GetAll();
+            items.ItemsSource = funds;
+        }
+
+        private async Task<List<Fund>> GetAll()
         {
             using (var client = new HttpClient())
             {
-                var uri = Constants.Constants.baseUrl + "funds/1";
+                var uri = Constants.Constants.baseUrl + "funds/name/" + title.Text;
                 var result = await client.GetStringAsync(uri);
 
-                return JsonConvert.DeserializeObject<Fund>(result);
+                return JsonConvert.DeserializeObject<List<Fund>>(result);
             }
         }
     }

@@ -6,7 +6,7 @@ namespace FundWallet.Constants
 {
     public static class Constants
     {
-        public static string baseUrl = "https://3a02b2a1.ngrok.io/api/";
+        public static string baseUrl = "https://b03a3743.ngrok.io/api/";
     }
 }
 
