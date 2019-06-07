@@ -26,5 +26,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Views\FundPage.cs" />
+    <Compile Remove="Views\AddFund.cs" />
   </ItemGroup>
 </Project>

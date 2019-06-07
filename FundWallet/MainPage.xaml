@@ -1,17 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:local="clr-namespace:FundWallet" x:Class="FundWallet.MainPage">
-    
     <NavigationPage.TitleView>
         <Label x:Name="title" FontSize="22" TextColor="White" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
     </NavigationPage.TitleView>
     
     <StackLayout>
-        <Entry x:Name="entFund" Placeholder="Fund"/>
-        <Entry x:Name="entQuantity" Placeholder="Quantity"/>
-        <Entry x:Name="entUnitPrice" Placeholder="Unit Price"/>
-
-        <Button x:Name="btnDialog" Text="Add Fund" Clicked="addFund" BackgroundColor="Green" TextColor="White"/>
-
         <ListView x:Name="items" ItemTapped="GoToFundPage">
             <ListView.ItemTemplate>
                 <DataTemplate>
@@ -30,5 +23,7 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+        
+        <Button Text="Add a New Fund" Clicked="GoToAddFund" BackgroundColor="Green" TextColor="White" />
     </StackLayout>
 </ContentPage>

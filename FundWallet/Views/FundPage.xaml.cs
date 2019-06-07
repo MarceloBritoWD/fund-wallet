@@ -10,10 +10,12 @@ namespace FundWallet.Views
 {
     public partial class FundPage : ContentPage
     {
+
         public FundPage(Fund fund)
         {
             InitializeComponent();
             title.Text = fund.Name;
+            totalSum.Text = "R$ 121,21";
             //items.ItemsSource = GetAll();
 
             //funds.ForEach(item =>

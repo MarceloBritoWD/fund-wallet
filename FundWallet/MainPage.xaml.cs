@@ -31,33 +31,6 @@ namespace FundWallet
         }
 
 
-        async void addFund(object sender, EventArgs e) {
-
-            using (var client = new HttpClient())
-            {
-
-                Fund fund = new Fund {
-                    Name = entFund.Text,
-                    Quantity = entQuantity.Text,
-                    UnitPrice = entUnitPrice.Text,
-                    PurchaseDate = new DateTime()
-                };
-
-                var result = await client.PostAsync(
-                    Constants.Constants.baseUrl + "funds",
-                    new StringContent(JsonConvert.SerializeObject(fund), Encoding.UTF8, "application/json")
-                );
-
-                if (result.IsSuccessStatusCode) {
-                    items.ItemsSource = await this.GetAll();
-                    await DisplayAlert("Success!", "Fund added with success", "OK");
-
-                } else {
-                    await DisplayAlert("Error! ;(", "Something went work, try again later!", "OK");
-                }
-            }
-        }
-
         private async Task<List<Fund>> GetAll()
         {
             using (var client = new HttpClient())
@@ -69,10 +42,18 @@ namespace FundWallet
             }
         }
 
+
         private async void GoToFundPage(object sender, ItemTappedEventArgs e)
         {
             var content = e.Item as Fund;
             await Navigation.PushAsync(new NavigationPage(new FundPage(content)));
         }
+
+
+        async void GoToAddFund(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new NavigationPage(new AddFund()));
+        }
+
     }
 }
