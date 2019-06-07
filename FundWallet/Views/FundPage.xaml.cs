@@ -15,22 +15,20 @@ namespace FundWallet.Views
         {
             InitializeComponent();
             title.Text = fund.Name;
-            totalSum.Text = "R$ 121,21";
 
             InicializeList();
-
-            //funds.ForEach(item =>
-            //{
-            //    total += Convert.ToDouble(item.Value);
-            //});
-            //FundTotal.Text = "R$ " + System.Math.Round(total, 2).ToString();
-            //FundsView.ItemsSource = funds;
+            GetTotalValue();
         }
 
         private async void InicializeList()
         {
             List<Fund> funds = await GetAll();
             items.ItemsSource = funds;
+        }
+
+        private async void GetTotalValue()
+        {
+            totalSum.Text = "R$ " + await this.GetTotalInevestedByName(title.Text);
         }
 
         private async Task<List<Fund>> GetAll()
@@ -41,6 +39,17 @@ namespace FundWallet.Views
                 var result = await client.GetStringAsync(uri);
 
                 return JsonConvert.DeserializeObject<List<Fund>>(result);
+            }
+        }
+
+        private async Task<Double> GetTotalInevestedByName(string name)
+        {
+            using (var client = new HttpClient())
+            {
+                var uri = Constants.Constants.baseUrl + "funds/total/" + title.Text;
+                var result = await client.GetStringAsync(uri);
+
+                return JsonConvert.DeserializeObject<Double>(result);
             }
         }
     }
