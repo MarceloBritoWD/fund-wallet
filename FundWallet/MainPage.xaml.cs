@@ -16,6 +16,7 @@ namespace FundWallet
     [DesignTimeVisible(true)]
     public partial class MainPage : ContentPage
     {
+        private string baseUrl = "https://70211931.ngrok.io/api/";
         public MainPage()
         {
             InitializeComponent();
@@ -33,7 +34,28 @@ namespace FundWallet
 
 
         async void addFund(object sender, EventArgs e) {
-            await DisplayAlert("Success!", "Fund added with success", "OK");
+
+            using (var client = new HttpClient())
+            {
+
+                Fund fund = new Fund {
+                    Name = entFund.Text,
+                    Quantity = entQuantity.Text,
+                    UnitPrice = entUnitPrice.Text,
+                    PurchaseDate = new DateTime()
+                };
+                var uri = baseUrl + "funds";
+                var result = await client.PostAsync(uri, new StringContent(JsonConvert.SerializeObject(fund), Encoding.UTF8, "application/json"));
+
+
+                if (result.IsSuccessStatusCode) {
+                    lstItens.ItemsSource = await this.Get();
+                    await DisplayAlert("Success!", "Fund added with success", "OK");
+
+                } else {
+                    await DisplayAlert("Error! ;(", "Something went work, try again later!", "OK");
+                }
+            }
         }
 
 
@@ -42,7 +64,7 @@ namespace FundWallet
         {
             using (var client = new HttpClient())
             {
-                var uri = "https://41d6fb31.ngrok.io/api/funds";
+                var uri = baseUrl + "funds";
                 var result = await client.GetStringAsync(uri);
 
                 return JsonConvert.DeserializeObject<List<Fund>>(result);
