@@ -4,17 +4,10 @@ namespace FundWallet.Model
     public class Fund
     {
 
-        private string Name { get; set; }
-        private string Quantity { get; set; }
-        private string UnitPrice { get; set; }
-        private DateTime PurchaseDate { get; set; }
-
-        public Fund(string name, string quantity, string price)
-        {
-            this.Name = name;
-            this.Quantity = quantity;
-            this.UnitPrice = price;
-            this.PurchaseDate = new DateTime();
-        }
+        public int fundId { get; set; }
+        public string Name { get; set; }
+        public string Quantity { get; set; }
+        public string UnitPrice { get; set; }
+        public DateTime PurchaseDate { get; set; }
     }
 }

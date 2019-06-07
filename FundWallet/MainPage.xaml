@@ -13,9 +13,16 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <Label 
-                            Text="{Binding Login}"
-                              HorizontalOptions="Center"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="4*"/>
+                                <ColumnDefinition Width="4*"/>
+                                <ColumnDefinition Width="4*"/>
+                            </Grid.ColumnDefinitions>
+                            <Label HorizontalOptions="Center" VerticalOptions="Center" TextColor="CadetBlue" Grid.Column="0" Text="{Binding Name}" />
+                            <Label HorizontalOptions="Center" VerticalOptions="Center" TextColor="CadetBlue" Grid.Column="1" Text="{Binding Quantity}" />
+                            <Label HorizontalOptions="Center" VerticalOptions="Center" TextColor="CadetBlue" Grid.Column="2" Text="{Binding UnitPrice}" />
+                        </Grid>
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>

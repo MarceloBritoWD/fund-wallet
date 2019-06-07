@@ -42,20 +42,8 @@ namespace FundWallet
         {
             using (var client = new HttpClient())
             {
-                //var uri = "https://localhost:5001/api/funds";
-                //var result = await client.GetStringAsync(uri);
-
-                var uri = "https://localhost:5001/api/funds";
-
-                // GitHub API versioning
-                client.DefaultRequestHeaders.Add("Accept",
-                    "application/json");
-                // GitHub requires a user-agent
-                client.DefaultRequestHeaders.Add("User-Agent",
-                    "HttpClientFactory-Sample");
-
+                var uri = "https://41d6fb31.ngrok.io/api/funds";
                 var result = await client.GetStringAsync(uri);
-
 
                 return JsonConvert.DeserializeObject<List<Fund>>(result);
             }
