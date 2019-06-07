@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using FundWallet.Model;
+using FundWallet.Views;
 using Newtonsoft.Json;
 using Xamarin.Forms;
 
@@ -16,20 +17,17 @@ namespace FundWallet
     [DesignTimeVisible(true)]
     public partial class MainPage : ContentPage
     {
-        private string baseUrl = "https://70211931.ngrok.io/api/";
         public MainPage()
         {
             InitializeComponent();
-
-            lblMessage.Text = "Fund Wallet";
-
+            title.Text = "Fund Wallet";
             InicializeList();
         }
 
         private async void InicializeList()
         {
-            List<Fund> funds = await Get();
-            lstItens.ItemsSource = funds;
+            List<Fund> funds = await GetAll();
+            items.ItemsSource = funds;
         }
 
 
@@ -44,12 +42,14 @@ namespace FundWallet
                     UnitPrice = entUnitPrice.Text,
                     PurchaseDate = new DateTime()
                 };
-                var uri = baseUrl + "funds";
-                var result = await client.PostAsync(uri, new StringContent(JsonConvert.SerializeObject(fund), Encoding.UTF8, "application/json"));
 
+                var result = await client.PostAsync(
+                    Constants.Constants.baseUrl + "funds",
+                    new StringContent(JsonConvert.SerializeObject(fund), Encoding.UTF8, "application/json")
+                );
 
                 if (result.IsSuccessStatusCode) {
-                    lstItens.ItemsSource = await this.Get();
+                    items.ItemsSource = await this.GetAll();
                     await DisplayAlert("Success!", "Fund added with success", "OK");
 
                 } else {
@@ -58,17 +58,21 @@ namespace FundWallet
             }
         }
 
-
-
-        private async Task<List<Fund>> Get()
+        private async Task<List<Fund>> GetAll()
         {
             using (var client = new HttpClient())
             {
-                var uri = baseUrl + "funds";
+                var uri = Constants.Constants.baseUrl + "funds";
                 var result = await client.GetStringAsync(uri);
 
                 return JsonConvert.DeserializeObject<List<Fund>>(result);
             }
+        }
+
+        private async void GoToFundPage(object sender, ItemTappedEventArgs e)
+        {
+            var content = e.Item as Fund;
+            await Navigation.PushAsync(new NavigationPage(new FundPage(content)));
         }
     }
 }
