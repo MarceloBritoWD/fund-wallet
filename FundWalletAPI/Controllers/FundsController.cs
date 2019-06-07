@@ -53,21 +53,52 @@ namespace FundWalletAPI.Controllers
 
 
 
-        //// PUT api/funds/5
+        // PUT: api/Funds/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] Fund fund)
+        public async Task<IActionResult> PutStock(int id, Fund fund)
         {
+            if (id != fund.FundId)
+            {
+                return BadRequest();
+            }
 
-            _context.Update(fund);
+            _context.Entry(fund).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!FundsExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
         }
 
-        //// DELETE api/funds/5
+        // DELETE: api/Funds/5
         [HttpDelete("{id}")]
-        public async void Delete(int id)
+        public async Task<ActionResult<Fund>> DeleteStock(int id)
         {
-            var fund = await _context.Funds.FindAsync(id);
-           _context.Remove(fund);
+            var stock = await _context.Funds.FindAsync(id);
+            if (stock == null)
+            {
+                return NotFound();
+            }
+
+            _context.Funds.Remove(stock);
+            await _context.SaveChangesAsync();
+
+            return stock;
         }
+
 
 
         [HttpGet("name/{name}")]
@@ -76,10 +107,25 @@ namespace FundWalletAPI.Controllers
             return _context.Funds.FromSql($"SELECT * FROM funds where name LIKE {name}").ToList();
         }
 
-        //[HttpGet]
-        //public async Task<ActionResult<IEnumerable<Fund>>> GetCountOfFundByName()
-        //{
-        //    return await _context.Funds.ToListAsync();
-        //}
+        private bool FundsExists(int id)
+        {
+            return _context.Funds.Any(e => e.FundId == id);
+        }
+
+
+        [HttpGet("total/{name}")]
+        public async Task<Double> GetTotalInvestedByNameAsync(string name)
+        {
+            //return await _context.Funds.ToListAsync();
+            var listOfFunds = _context.Funds.FromSql($"SELECT * FROM funds where name LIKE {name}").ToList();
+            var count = 0.0;
+
+            foreach (Fund item in listOfFunds)
+            {
+                count += item.Quantity * item.UnitPrice;
+            }
+
+            return count;
+        }
     }
 }
