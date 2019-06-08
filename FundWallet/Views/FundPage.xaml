@@ -1,23 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="FundWallet.Views.FundPage">
     <NavigationPage.TitleView>
-        <Label x:Name="title" FontSize="22" TextColor="White" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+        <StackLayout>
+            <Label x:Name="title" FontSize="22" TextColor="White" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+        <Label x:Name="totalSum" FontSize="16" TextColor="White" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+            </StackLayout>
+        
     </NavigationPage.TitleView>
     
     <StackLayout>
-
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="6*"/>
-                <ColumnDefinition Width="6*"/>
-            </Grid.ColumnDefinitions>
-            
-            <Label Text="TOTAL SUM:" FontSize="18" TextColor="Purple" HorizontalTextAlignment="Left" Grid.Column="0" VerticalTextAlignment="Start" />
-            <Label x:Name="totalSum" FontSize="18" TextColor="Purple" HorizontalTextAlignment="Right" Grid.Column="1" VerticalTextAlignment="Start" />
-        </Grid>
-
-        
-        
         <ListView x:Name="items">
             <ListView.ItemTemplate>
                 <DataTemplate>
